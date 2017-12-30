@@ -1,0 +1,9 @@
+name: caryocar
+dependencies:
+  - python
+  - networkx=2.0
+  - numpy
+  - scipy
+  - jupyter
+  - pandas
+
