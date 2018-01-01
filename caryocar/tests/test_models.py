@@ -116,4 +116,4 @@ def test_cwn_remapped_names_edge_counts(cwn_nm,u,v,expectedCount):
     
 # Execute tests above on script run
 if __name__ == '__main__':
-    pytest.main(['-v'])
+    pytest.main(['-v', __file__])
