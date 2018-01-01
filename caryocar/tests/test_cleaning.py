@@ -1,6 +1,9 @@
 import pytest
 from caryocar.cleaning import NamesMap
 
+# ===================
+# test NamesMap class
+# ===================
 @pytest.fixture
 def nm():
     names = ["name"+str(i) for i in range(1,10)]
@@ -52,13 +55,26 @@ def test_namesmap_remapped_getMap_loopbacks_raise_runtimeerror(remap):
     with pytest.raises(RuntimeError):
         nm.getMap(remap=True)
     assert nm.getMap(remap=False)
+
+@pytest.mark.parametrize("remap,endpoint",[
+        ({ 'NAME1':'NAME2',
+          'NAME2':'NAME1' },'NAME2'),
+        ({ 'NAME1':'NAME2',
+          'NAME2':'NAME3',
+          'NAME3':'NAME1' },'NAME2'),
+        ({ 'NAME1':'NAME2',
+          'NAME2':'NAME3',
+          'NAME3':'NAME4',
+          'NAME4':'NAME2' },'NAME2') ])    
+def test_namesmap_remapped_loopbacks_setting_endpoints(remap,endpoint):
+    '''Setting endpoints fixes loopbacks in names maps'''
+    names=["name"+str(i) for i in range(1,10)]
+    upper=lambda x: x.upper()
+    nm=NamesMap(names=names,normalizationFunc=upper,remappingIndex=remap)
+    nm.setEndpoint(endpoint)
+    assert nm.getMap()
+    assert any( upper(u)==v for u,v in nm.getMap().items() if v==endpoint ) # the endpoint should have its non-normalized form as a source
     
 # Execute tests above on script run
 if __name__ == '__main__':
     pytest.main(['-v', __file__ ])
-    
-#%%
-m = nm_remapped()
-
-
-#%%
