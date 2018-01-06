@@ -5,7 +5,6 @@ import networkx
 from caryocar.models import CoworkingNetwork
 from caryocar.cleaning import NamesMap
 
-
 @pytest.fixture
 def cwn():
     '''A Coworking Network'''
@@ -33,7 +32,7 @@ def cwn():
     ['col9','col9'],
     ['col9','col9'] ]
     return CoworkingNetwork(cliques=collectors)
-    
+   
 @pytest.fixture
 def cwn_nm():
     '''A Coworking network initialized with a names map'''
