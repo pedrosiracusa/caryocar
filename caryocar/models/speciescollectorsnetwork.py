@@ -10,6 +10,7 @@ import scipy
 import numpy
 import copy
 from collections import Counter
+from sklearn.metrics.pairwise import cosine_similarity
 
 class SpeciesCollectorsNetwork(networkx.Graph):
     """
@@ -277,7 +278,7 @@ class SpeciesCollectorsNetwork(networkx.Graph):
 
         return g
         
-    def _projection_additive_weighting( self,nodesSet ):  
+    def _projection_additive_weighting( self,nodesSet, thresh=None ): 
         g = networkx.Graph()
         
         if nodesSet=='species':
@@ -296,7 +297,8 @@ class SpeciesCollectorsNetwork(networkx.Graph):
                 v_nbrs_o = set(self.adj[v])
                 common_nodes_o = u_nbrs_o & v_nbrs_o
                 weight = sum( (self[u][n]['count'] + self[v][n]['count'])/2 for n in common_nodes_o )
-                g.add_edge(u,v,weight=weight)        
+                if weight >= thresh:
+                    g.add_edge(u,v,weight=weight)        
         
         return g
     
@@ -328,5 +330,35 @@ class SpeciesCollectorsNetwork(networkx.Graph):
             for j,sim in zip(colIndices,data):
                 g.add_edge(n[i],n[j],weight=sim)
         
+        return g
+    
+    def project( self, nodesSet, rule='simple_weighting', thresh=None ):
+        """
+        Generates a SCN projection onto a nodes set, using one of the available rules.
+        
+        Parameters
+        ----------
+        nodesSet : str
+            The nodes set to project the graph onto. Input can be either 'species' or 'collectors'.
+        
+        rule : str, default 'simple_weighting'
+            The rule that should be used to assign weights to edges in the projected graph. Available rules are: 'simple_weighting', 'additive_weighting', 'cosine_similarity' 
+            
+        thresh : numerical (optional)
+            A weight threshold value for edge creation. If weight value is below threshold the edge is not created.
+        """
+        if nodesSet not in ['species','collectors']:
+            raise ValueError("nodesSet argument must be 'species' or 'collectors'")
+            
+        if rule=='simple_weighting':
+            g=self._projection_simple_weighting(nodesSet=nodesSet,thresh=thresh)
+        elif rule=='additive_weighting':
+            g=self._projection_additive_weighting(nodesSet=nodesSet,thresh=thresh)
+        elif rule=='cosine_similarity':
+            which='speciesbag' if nodesSet=='collectors' else 'interest'
+            g=self._projection_cosine_similarity(which=which,thresh=thresh)
+        else:
+            raise ValueError("Invalid projection rule")
+            
         return g
         
