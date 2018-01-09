@@ -269,12 +269,64 @@ class SpeciesCollectorsNetwork(networkx.Graph):
             weightsM.data = numpy.where( weightsM.data >= thresh, weightsM.data, 0 )
         weightsM.eliminate_zeros()
 
-        for i in range(weightsM.shape[0]):
-            row = weightsM[i]
+        for i,row in enumerate(weightsM):
             data=row.data
             colIndices = row.indices
             for j,w in zip(colIndices,data):
                 g.add_edge(n[i],n[j],weight=w)
 
+        return g
+        
+    def _projection_additive_weighting( self,nodesSet ):  
+        g = networkx.Graph()
+        
+        if nodesSet=='species':
+                g.add_nodes_from(self.listSpeciesNodes(data=True))
+                
+        elif nodesSet=='collectors':
+                g.add_nodes_from(self.listCollectorsNodes(data=True))
+        else:
+            raise ValueError( "nodesSet argument must be 'species' or 'collectors'" )
+        
+        nodes = g.nodes()
+        for u in nodes:
+            u_nbrs_o = set(self.adj[u]) 
+            u_nbrs_i = set( w for v in u_nbrs_o for w in self.adj[v] )-set([u])
+            for v in u_nbrs_i:
+                v_nbrs_o = set(self.adj[v])
+                common_nodes_o = u_nbrs_o & v_nbrs_o
+                weight = sum( (self[u][n]['count'] + self[v][n]['count'])/2 for n in common_nodes_o )
+                g.add_edge(u,v,weight=weight)        
+        
+        return g
+    
+    def _projection_cosine_similarity( self, which, thresh=None ):
+        cols,spp,m = self._getBiadjMatrix()
+        g = networkx.Graph()
+        
+        if which=='interest':
+            m=m.T
+            g.add_nodes_from(self.listSpeciesNodes(data=True))
+            n=spp
+            
+        elif which=='speciesbag':
+            g.add_nodes_from(self.listCollectorsNodes(data=True))
+            n=cols
+            
+        else:
+            raise ValueError("which argument must be either 'interest' or 'speciesbag'")
+            
+        simM = scipy.sparse.csr_matrix(cosine_similarity(m))
+        simM.setdiag(0)
+        if thresh is not None:
+            simM.data = numpy.where( simM.data >= thresh, simM.data, 0 )
+        simM.eliminate_zeros()
+        
+        for i,row in enumerate(simM):
+            data=row.data
+            colIndices=row.indices
+            for j,sim in zip(colIndices,data):
+                g.add_edge(n[i],n[j],weight=sim)
+        
         return g
         
