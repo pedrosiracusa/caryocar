@@ -131,11 +131,16 @@ class SpeciesCollectorsNetwork(networkx.Graph):
         if col_sp_order is None:
             col_sp_order=(sorted(self.listCollectorsNodes()),sorted(self.listSpeciesNodes())) 
             
+        
         m = networkx.bipartite.biadjacency_matrix(self,
                                                   row_order=col_sp_order[0],
                                                   column_order=col_sp_order[1],
                                                   weight='count')
-        self._biadj_matrix = (*[numpy.array(i) for i in col_sp_order],m)
+        
+        self._biadj_ix = ( dict( (c,i) for i,c in enumerate(col_sp_order[0]) ), \
+                           dict( (s,i) for i,s in enumerate(col_sp_order[1]) ) )
+        
+        self._biadj_matrix = (*col_sp_order,m)
         
     def _getBiadjMatrix( self ):
         """
@@ -217,8 +222,8 @@ class SpeciesCollectorsNetwork(networkx.Graph):
         The species bag vector is stored as a 1xn SciPy sparse matrix.
         """
         colList, spList, m = self._getBiadjMatrix()
-        i = colList.index(collector)
-        vector = m.getrow(i)
+        i = self._biadj_ix[0][collector]
+        vector = m[i]
         return (spList, vector)
     
     def getInterestVector( self, species ):
@@ -236,8 +241,8 @@ class SpeciesCollectorsNetwork(networkx.Graph):
         """
         colList, spList, m = self._getBiadjMatrix()
         m = m.transpose()
-        i = spList.index(species)
-        vector = m.getrow(i)
+        i = self._biadj_ix[1][species]
+        vector = m[i]
         return (colList,vector)
     
     def _projection_simple_weighting( self, nodesSet, thresh=None ):
