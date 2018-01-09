@@ -240,7 +240,7 @@ class SpeciesCollectorsNetwork(networkx.Graph):
         vector = m.getrow(i)
         return (colList,vector)
     
-    def _get_proj_simple_weighting( self, nodesSet ):
+    def _projection_simple_weighting( self, nodesSet, thresh=None ):
 
         cols,spp,m = self._getBiadjMatrix()
         m.data=numpy.ones(shape=(len(m.data)),dtype=numpy.int)
@@ -260,6 +260,8 @@ class SpeciesCollectorsNetwork(networkx.Graph):
             raise ValueError( "nodesSet argument must be 'species' or 'collectors'" )
 
         weightsM.setdiag(0)
+        if thresh is not None:
+            weightsM.data = numpy.where( weightsM.data >= thresh, weightsM.data, 0 )
         weightsM.eliminate_zeros()
 
         for i in range(weightsM.shape[0]):
