@@ -6,6 +6,9 @@ Species-collectors Network Module
 """
 
 import networkx
+import scipy
+import numpy
+import copy
 from collections import Counter
 
 class SpeciesCollectorsNetwork(networkx.Graph):
@@ -125,17 +128,31 @@ class SpeciesCollectorsNetwork(networkx.Graph):
         return
     
     def _buildBiadjMatrix( self, col_sp_order=None ):
-        col_sp_order=(sorted(self.listCollectorsNodes()),sorted(self.listSpeciesNodes())) if col_sp_order is None else col_sp_order
+        if col_sp_order is None:
+            col_sp_order=(sorted(self.listCollectorsNodes()),sorted(self.listSpeciesNodes())) 
+            
         m = networkx.bipartite.biadjacency_matrix(self,
                                                   row_order=col_sp_order[0],
                                                   column_order=col_sp_order[1],
                                                   weight='count')
-        self._biadj_matrix = (*col_sp_order,m)
+        self._biadj_matrix = (*[numpy.array(i) for i in col_sp_order],m)
         
     def _getBiadjMatrix( self ):
+        """
+        Returns a COPY of the biadjacency matrix
+        """
         if self._biadj_matrix is None:
             self._buildBiadjMatrix()
-        return self._biadj_matrix
+        return copy.deepcopy(self._biadj_matrix)
+    
+    def remove_nodes_from( self, nodes ):
+        """
+        Overrides parent method. 
+        If nodes removal make isolated nodes those are also removed. 
+        """
+        super().remove_nodes_from(nodes)
+        isolates = list(networkx.isolates(self))
+        return super().remove_nodes_from(isolates)
         
     def listSpeciesNodes(self,data=False):
         """
@@ -199,9 +216,6 @@ class SpeciesCollectorsNetwork(networkx.Graph):
         the second is the vector containing their counts.
         The species bag vector is stored as a 1xn SciPy sparse matrix.
         """
-        if self._biadj_matrix is None:
-            self._buildBiadjMatrix()
-            
         colList, spList, m = self._getBiadjMatrix()
         i = colList.index(collector)
         vector = m.getrow(i)
@@ -220,11 +234,40 @@ class SpeciesCollectorsNetwork(networkx.Graph):
         the second is the vector containing their counts.
         The interest vector is stored as a 1xn SciPy sparse matrix.
         """
-        if self._biadj_matrix is None:
-            self._buildBiadjMatrix()
-        
         colList, spList, m = self._getBiadjMatrix()
         m = m.transpose()
         i = spList.index(species)
         vector = m.getrow(i)
         return (colList,vector)
+    
+    def _get_proj_simple_weighting( self, nodesSet ):
+
+        cols,spp,m = self._getBiadjMatrix()
+        m.data=numpy.ones(shape=(len(m.data)),dtype=numpy.int)
+        g=networkx.Graph()
+
+        if nodesSet=='species': 
+            weightsM = scipy.sparse.triu(m.T.dot(m)).tocsr()
+            g.add_nodes_from(self.listSpeciesNodes(data=True))
+            n=spp
+
+        elif nodesSet=='collectors':
+            weightsM = scipy.sparse.triu(m.dot(m.T)).tocsr()
+            g.add_nodes_from(self.listCollectorsNodes(data=True))
+            n=cols
+
+        else:
+            raise ValueError( "nodesSet argument must be 'species' or 'collectors'" )
+
+        weightsM.setdiag(0)
+        weightsM.eliminate_zeros()
+
+        for i in range(weightsM.shape[0]):
+            row = weightsM[i]
+            data=row.data
+            colIndices = row.indices
+            for j,w in zip(colIndices,data):
+                g.add_edge(n[i],n[j],weight=w)
+
+        return g
+        
