@@ -32,15 +32,20 @@ class SpeciesCollectorsNetwork(networkx.Graph):
     For the model to be created both the species and collectors lists must have the same length.
     The ordering of both species and collectors list is important for creating bipartite edges.
     
-    Class Methods
+    Methods
     -------------
     .listSpeciesNodes
     .listCollectorsNodes
     .getSpeciesBag
     .getInterestVector
+    .remove_nodes_from
+    .fromCrsBiadjMatrix
+    .project
+    .taxonomicAggregation
     
     Examples
     --------
+    SCN model initialization
     >>> cols=[ ['col1','col2','col3'],
                ['col1','col2'],
                ['col2','col3'],
@@ -76,10 +81,13 @@ class SpeciesCollectorsNetwork(networkx.Graph):
     """
     def __init__(self, data=None, species=None, collectors=None, namesMap=None, **attr):
         
+        if attr.get('initialize_empty')==True:
+            super().__init__(data=data,**attr)
+            return
+        
         self._parseInputData(species,collectors)
-        
         self._biadj_matrix = None
-        
+
         set_bipartite_attr=False # a flag for setting bipartite attribute after graph creation
         if species is not None and collectors is not None:
             if namesMap:
@@ -112,7 +120,43 @@ class SpeciesCollectorsNetwork(networkx.Graph):
         edges_counts = Counter(edges)
         for (u,v),cnt in edges_counts.items():
             self[u][v]['count'] = self[u][v].get('count',0)+cnt
+    
+    @classmethod
+    def fromCrsBiadjMatrix( cls, nset1, nset2, m, cols_sp_axes=(0,1) ):
+        """
+        Creates a SCN network from a scipy CRS biadjacency matrix
+        
+        Parameters
+        ----------
+        nset1 : iterable
+            Elements that compose nodes set 1 (are the row elements in the crs matrix). Its length must be the same as the number of rows.
+        
+        nset2 : iterable
+            Elements that compose nodes set 2 (are the column elements in the crs matrix). Its length must be the same as the number of columns.
+        
+        m : scipy CRS sparse matrix
+            The biadjacency matrix used to build the SCN.
             
+        cols_sp_axes : binary 2-tuple, default (0,1)
+            Code to inform whether collectors and species are respectively represented in rows (axis 0) and columns (axis 1) in the biadjacency matrix or the inverse.
+            
+        Returns
+        -------
+        A Species Collectors Network
+        """
+        cols_sp_axes = (1,0) # default (0,1)
+        g=cls(initialize_empty=True)
+
+        g.add_nodes_from(nset1, bipartite = 0 if cols_sp_axes==(0,1) else 1)
+        g.add_nodes_from(nset2, bipartite = 1 if cols_sp_axes==(0,1) else 0)
+
+        for i,row in enumerate(m):
+            data=row.data
+            colIndices=row.indices
+            for j,cnt in zip(colIndices,data):
+                g.add_edge(nset1[i],nset2[j],count=cnt)
+        
+        return g
     
     def _parseInputData( self, species, collectors ):
         # Check format
@@ -361,4 +405,66 @@ class SpeciesCollectorsNetwork(networkx.Graph):
             raise ValueError("Invalid projection rule")
             
         return g
+    
+    def taxonomicAggregation(self,grouping):
+        """
+        Generates a taxonomically aggregated version of this network.
         
+        Parameters
+        ----------
+        grouping : dict of iterables (preferrably dict of sets)
+            The grouping to be used on aggregation. A valid grouping example is
+            >>> grp = { 'family_a': {'sp1','sp2','sp3'},
+                        'family_b': {'sp4'},
+                        'family_c': {'sp5','sp6'} }
+        """
+        grouping = dict( (k,set(v)) for k,v in grouping.items() )
+        cols,spp,m = self._getBiadjMatrix()
+        m=m.T
+        ix = self._biadj_ix[1]
+
+        # Clean grouping by removing sp nodes that do not exist in the original network
+        itemsToRemove=[]
+        spset = set(spp)
+        keysToRemove=set()
+        for grp,spp in grouping.items():
+            itemsToRemove=set()
+            for sp in spp:
+                if sp not in spset: itemsToRemove.add(sp)
+            grouping[grp] -= itemsToRemove
+            if len(grouping[grp])==0: keysToRemove.add(grp)  
+        for k in keysToRemove: grouping.pop(k)
+
+        # Initialize the new grouping data dictionary
+        data = dict()
+
+        # Obtain counts for each new group from species and include in the data dict
+        species_counts = dict(self.listSpeciesNodes(data='count'))
+        data['count'] = dict( (grp, sum(species_counts[sp] for sp in spp)) for grp,spp in grouping.items() )
+
+        # Create rows to compose the grouping biadjacency matrix
+        # Sums up species bags for species in each group
+        aggreg_biadj_rows = []
+        groups_order = []
+        groups_ixes = [ (grp,[ ix[i] for i in ixes ]) for grp,ixes in grouping.items() ]
+        for grp,ixes in groups_ixes:
+            rows=[]
+            for i in ixes:
+                rows.append(m.getrow(i))
+
+            grp_matrix = scipy.sparse.vstack(rows,format='csc')
+            grp_sum_arr = scipy.sparse.csr_matrix(grp_matrix.sum(axis=0))
+            aggreg_biadj_rows.append( (grp,grp_sum_arr) )
+            groups_order.append(grp)
+
+        # Create the biadjacency matrix
+        aggreg_biadj = ( groups_order, cols, scipy.sparse.vstack([ row for grp,row in aggreg_biadj_rows ], format='csr') )
+
+        # Create the graph from biadj matrix
+        g=self.fromCrsBiadjMatrix(*aggreg_biadj,cols_sp_axes=(1,0))
+
+        # set nodes attributes
+        networkx.set_node_attributes(g,dict(self.listCollectorsNodes(data='count')),'count')
+        networkx.set_node_attributes(g,data['count'],'count')
+
+        return g
