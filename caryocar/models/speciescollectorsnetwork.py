@@ -81,12 +81,15 @@ class SpeciesCollectorsNetwork(networkx.Graph):
     """
     def __init__(self, data=None, species=None, collectors=None, namesMap=None, **attr):
         
+        # Class attributes
+        self._biadj_matrix = None
+        
+        # Class construction routine
         if attr.get('initialize_empty')==True:
             super().__init__(data=data,**attr)
-            return
+            return        
         
         self._parseInputData(species,collectors)
-        self._biadj_matrix = None
 
         set_bipartite_attr=False # a flag for setting bipartite attribute after graph creation
         if species is not None and collectors is not None:
