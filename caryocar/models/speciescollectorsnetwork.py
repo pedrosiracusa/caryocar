@@ -468,3 +468,20 @@ class SpeciesCollectorsNetwork(networkx.Graph):
         networkx.set_node_attributes(g,data['count'],'count')
 
         return g
+    
+    def connectedComponentsSubgraphs(self):
+        """
+        Creates a list of subgraphs with all connected components.
+        
+        Returns
+        -------
+        A list of SpeciesCollectorsNetwork instances, containing each connected component.
+        """
+        sgs = []
+        for sg in networkx.connected_component_subgraphs(self,copy=True):
+            scn_i = self.__class__(initialize_empty=True)
+            scn_i.add_nodes_from(sg.nodes(data=True))
+            scn_i.add_edges_from(sg.edges(data=True))
+            sgs.append(scn_i)
+            
+        return sgs
