@@ -2,12 +2,14 @@
 # -*- coding: utf-8 -*-
 
 """
-Coworking Network Module
+Coworking Networks
 """
 import networkx
 import itertools
 from collections import Counter
 
+__author__ = "Pedro Correia de Siracusa"
+__copyright__ = "Copyright 2018"
 
 class CoworkingNetwork(networkx.Graph):
     """
@@ -19,14 +21,30 @@ class CoworkingNetwork(networkx.Graph):
         An iterable of iterables containing names used to compose cliques 
         in the network.
         
+    taxons (optional) : iterable
+        An iterable containing taxons recorded by each collector clique. This iterable should be the same length and in the same ordering as the cliques iterable. 
+        
     namesMap (optional) : caryocar.NamesMap.
         A caryocar NamesMap object for normalizing nodes names.
+        
+    Edge attributes
+    ---------------
+    count: int
+        The number of occurrences of the edge.
+    
+    taxons: list (optional)
+        A list with all taxons which were recorded by a pair of collectors (those forming the edge).
+    
+    weight_hyperbolic: float
+        The hyperbolic weight of the edge.
         
     Class Methods
     -------------
     
     Examples
     --------
+    
+    # Creating a CWN from collectors cliques only
     >>> collectors = [ ['a','b','c'], ['d','e'], ['a','c'] ]
     >>> cwn = CoworkingNetwork(cliques=collectors)
     
@@ -38,14 +56,41 @@ class CoworkingNetwork(networkx.Graph):
       'e': {'count': 1} }    
       
     >>> cwn.edges(data=True)
-    [ ('a', 'b', {'count': 1}), 
-      ('a', 'c', {'count': 2}), 
-      ('b', 'c', {'count': 1}), 
-      ('d', 'e', {'count': 1}) ]
+    [ ('a', 'b', {'count': 1, 'taxons': None, 'weight_hyperbolic': 0.5}), 
+      ('a', 'c', {'count': 2, 'taxons': None, 'weight_hyperbolic': 1.5}), 
+      ('b', 'c', {'count': 1, 'taxons': None, 'weight_hyperbolic': 0.5}), 
+      ('d', 'e', {'count': 1, 'taxons': None, 'weight_hyperbolic': 1.0}) ]
     
+    # Creating a CWN with collectors and taxons
+    >>> collectors = [ ['a','b','c'], 
+                       ['d','e'], 
+                       ['a','c'],
+                       ['a','c'],
+                       ['c','d','e'],
+                       ['a','b','c','d'],
+                       ['a']]
+    >>> taxons = ['t1','t2','t1','t3','t1','t1','t4']    
+    >>> cwn = CoworkingNetwork(cliques=collectors,taxons=taxons)
+    
+    >>> cwn.nodes(data=True)
+    { 'b': {'count': 2}, 
+      'c': {'count': 5}, 
+      'a': {'count': 5}, 
+      'd': {'count': 3}, 
+      'e': {'count': 2} }
+    
+    >>> cwn.edges(data=True)
+    [ ('b', 'c', {'count': 2, 'taxons': ['t1', 't1'], 'weight_hyperbolic': 0.8333333333333333}), 
+      ('b', 'a', {'count': 2, 'taxons': ['t1', 't1'], 'weight_hyperbolic': 0.8333333333333333}), 
+      ('b', 'd', {'count': 1, 'taxons': ['t1'], 'weight_hyperbolic': 0.3333333333333333}), 
+      ('c', 'a', {'count': 4, 'taxons': ['t1', 't1', 't3', 't1'], 'weight_hyperbolic': 2.8333333333333335}), 
+      ('c', 'e', {'count': 1, 'taxons': ['t1'], 'weight_hyperbolic': 0.5}), 
+      ('c', 'd', {'count': 2, 'taxons': ['t1', 't1'], 'weight_hyperbolic': 0.8333333333333333}), 
+      ('a', 'd', {'count': 1, 'taxons': ['t1'], 'weight_hyperbolic': 0.3333333333333333}), 
+      ('d', 'e', {'count': 2, 'taxons': ['t2', 't1'], 'weight_hyperbolic': 1.5})])
     
     """
-    def __init__(self, data=None, cliques=None, namesMap=None, **attr):
+    def __init__(self, data=None, cliques=None, taxons=None, namesMap=None, **attr):
         """
         Initialization of CoworkingNetwork class.
         
@@ -67,8 +112,26 @@ class CoworkingNetwork(networkx.Graph):
             # prevent self-loops
             cliques = [ list(set(nset)) for nset in cliques ]
             
-            edgesLists = map( lambda n: itertools.combinations(n,r=2), cliques )
-            data = [ edge for edgesList in edgesLists for edge in edgesList ]
+            # attributes dicts
+            hyperb_weight = lambda ts: 1/(ts-1) 
+            e_attr_hyperbWeight=dict()
+            e_attr_taxon=dict()
+            e_attr_count=dict()
+            
+            # build edges from records
+            if taxons is None: cliques_taxons = map( lambda c: (c,None), cliques)
+            else: cliques_taxons = zip(cliques,taxons)
+            for clique,taxon in cliques_taxons:
+                teamsize=len(clique)
+                edgesFromClique = itertools.combinations(clique,2)
+                for e in edgesFromClique:
+                    e = tuple(sorted(e))
+                    e_attr_count[e] = e_attr_count.get(e,0)+1
+                    e_attr_taxon[e] = e_attr_taxon.get(e,[])+[taxon] if taxons is not None else None
+                    e_attr_hyperbWeight[e] = e_attr_hyperbWeight.get(e,0)+hyperb_weight(teamsize)
+            
+            edges = e_attr_count.keys()
+            data = list(edges)
             
         super().__init__(data=data,**attr)
     
@@ -78,9 +141,8 @@ class CoworkingNetwork(networkx.Graph):
         
         self.add_nodes_from(nodes)
         networkx.set_node_attributes(self,values=nodes_counts,name='count')
-        
-        # set edges count attribute
-        edges = data
-        edges_counts = Counter(edges)
-        for (u,v),cnt in edges_counts.items():
-            self[u][v]['count'] = self[u][v].get('count',0)+cnt
+       
+        # set edges attributes
+        networkx.set_edge_attributes(self,e_attr_count,'count')
+        networkx.set_edge_attributes(self,e_attr_taxon,'taxons')
+        networkx.set_edge_attributes(self,e_attr_hyperbWeight,'weight_hyperbolic')

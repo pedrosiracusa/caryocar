@@ -113,6 +113,14 @@ def test_cwn_remapped_names_edge_counts(cwn_nm,u,v,expectedCount):
     '''Edges count attribute works for remapped names'''
     assert cwn_nm.edges[(u,v)].get('count')==expectedCount
     
+    
+# TODO:
+# Test: SCN does not allow 0-degree nodes
+# Test: SCN biadj matrix does not change on querying operations
+# Test: SCN biadj matrix querying operations retrieve copies of matrix
+# Test: CWN hyperbolic weighting in edge attribs.
+# Test: CWN taxons in edge attribs.
+    
 # Execute tests above on script run
 if __name__ == '__main__':
     pytest.main(['-v', __file__])
