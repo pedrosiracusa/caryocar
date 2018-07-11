@@ -38,8 +38,6 @@ class CWN(networkx.Graph):
     weight_hyperbolic: float
         The hyperbolic weight of the edge.
         
-    Class Methods
-    -------------
     
     Examples
     --------
@@ -133,7 +131,7 @@ class CWN(networkx.Graph):
             edges = e_attr_count.keys()
             data = list(edges)
             
-        super().__init__(data=data,**attr)
+        super().__init__(incoming_graph_data=data,**attr)
     
         # insert nodes and set count attribute
         nodes_counts = Counter( col for clique in cliques for col in clique )
@@ -146,3 +144,33 @@ class CWN(networkx.Graph):
         networkx.set_edge_attributes(self,e_attr_count,'count')
         networkx.set_edge_attributes(self,e_attr_taxon,'taxons')
         networkx.set_edge_attributes(self,e_attr_hyperbWeight,'weight_hyperbolic')
+
+
+
+if __name__=="__main__":
+    
+    collectors = [
+    # col1, col2, col3 and col4 are connected
+    ['col1','col2','col3','col4'],
+    ['col1','col2','col3'],
+    ['col1','col2','col3'],
+    ['col1','col3','col2'],
+    ['col1','col2'],
+    ['col1','col2'],
+    ['col1','col2'],
+    ['col1','col3'],
+    ['col2','col3'],
+    ['col2','col4'],
+    ['col2','col4'],
+    ['col4'],
+    # col5 is isolated
+    ['col5'],
+    ['col5'],
+    # col7 and col8 are connected
+    ['col7','col8'],
+    ['col7','col8'],
+    # col9 would lead to self loop
+    ['col9','col9'],
+    ['col9','col9'] ]
+
+    cwn = CWN(cliques=collectors)

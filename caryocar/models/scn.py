@@ -105,7 +105,7 @@ class SCN(networkx.Graph):
                 data = [ (sp,col) for i,sp in enumerate(species) for col in collectors[i] ]
                 set_bipartite_attr=True
 
-        super().__init__(data=data,**attr)
+        super().__init__(incoming_graph_data=data,**attr)
         
         if set_bipartite_attr:
             networkx.set_node_attributes( self, values=dict( (n,1) for n in species), name='bipartite' )
