@@ -11,7 +11,7 @@ from collections import Counter
 __author__ = "Pedro Correia de Siracusa"
 __copyright__ = "Copyright 2018"
 
-class CoworkingNetwork(networkx.Graph):
+class CWN(networkx.Graph):
     """
     Class for coworking networks. Extends networkx Graph class.
     
@@ -46,7 +46,7 @@ class CoworkingNetwork(networkx.Graph):
     
     # Creating a CWN from collectors cliques only
     >>> collectors = [ ['a','b','c'], ['d','e'], ['a','c'] ]
-    >>> cwn = CoworkingNetwork(cliques=collectors)
+    >>> cwn = CWN(cliques=collectors)
     
     >>> cwn.nodes(data=True)
     { 'a': {'count': 2}, 
@@ -70,7 +70,7 @@ class CoworkingNetwork(networkx.Graph):
                        ['a','b','c','d'],
                        ['a']]
     >>> taxons = ['t1','t2','t1','t3','t1','t1','t4']    
-    >>> cwn = CoworkingNetwork(cliques=collectors,taxons=taxons)
+    >>> cwn = CWN(cliques=collectors,taxons=taxons)
     
     >>> cwn.nodes(data=True)
     { 'b': {'count': 2}, 
@@ -92,7 +92,7 @@ class CoworkingNetwork(networkx.Graph):
     """
     def __init__(self, data=None, cliques=None, taxons=None, namesMap=None, **attr):
         """
-        Initialization of CoworkingNetwork class.
+        Initialization of CWN class.
         
         Parameters
         ----------
