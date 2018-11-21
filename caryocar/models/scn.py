@@ -12,7 +12,7 @@ import copy
 from collections import Counter
 from sklearn.metrics.pairwise import cosine_similarity
 
-class SpeciesCollectorsNetwork(networkx.Graph):
+class SCN(networkx.Graph):
     """
     Class for Species-collectors networks. Extends networkx Graph class.
     
@@ -55,7 +55,7 @@ class SpeciesCollectorsNetwork(networkx.Graph):
       
     >>> spp=['sp1','sp2','sp3','sp2','sp3','sp2']
     
-    >>> scn = SpeciesCollectorsNetwork( species=spp, collectors=cols )
+    >>> scn = SCN( species=spp, collectors=cols )
     
     >>> scn.nodes(data=True)
     { 'sp1': {'bipartite': 1, 'count': 1}, 
@@ -105,7 +105,7 @@ class SpeciesCollectorsNetwork(networkx.Graph):
                 data = [ (sp,col) for i,sp in enumerate(species) for col in collectors[i] ]
                 set_bipartite_attr=True
 
-        super().__init__(data=data,**attr)
+        super().__init__(incoming_graph_data=data,**attr)
         
         if set_bipartite_attr:
             networkx.set_node_attributes( self, values=dict( (n,1) for n in species), name='bipartite' )
@@ -478,7 +478,7 @@ class SpeciesCollectorsNetwork(networkx.Graph):
         
         Returns
         -------
-        A list of SpeciesCollectorsNetwork instances, containing each connected component.
+        A list of SCN instances, containing each connected component.
         """
         sgs = []
         for sg in networkx.connected_component_subgraphs(self,copy=True):

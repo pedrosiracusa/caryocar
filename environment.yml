@@ -2,12 +2,9 @@ name: caryocar
 
 dependencies:
   - python=3.6
-  - networkx=2.0
+  - networkx
   - numpy
   - scipy
-  - jupyter
-  - spyder
-  - pandas
   - pytest
   - scikit-learn
 

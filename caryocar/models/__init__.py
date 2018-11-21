@@ -1,2 +1,2 @@
-from .coworkingnetwork import CoworkingNetwork
-from .speciescollectorsnetwork import SpeciesCollectorsNetwork
+from .cwn import CWN
+from .scn import SCN

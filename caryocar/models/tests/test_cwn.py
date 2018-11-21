@@ -2,7 +2,7 @@
 
 import pytest
 import networkx
-from caryocar.models import CoworkingNetwork
+from caryocar.models import CWN
 from caryocar.cleaning import NamesMap
 
 @pytest.fixture
@@ -31,7 +31,7 @@ def cwn():
     # col9 would lead to self loop
     ['col9','col9'],
     ['col9','col9'] ]
-    return CoworkingNetwork(cliques=collectors)
+    return CWN(cliques=collectors)
    
 @pytest.fixture
 def cwn_nm():
@@ -49,7 +49,7 @@ def cwn_nm():
                    ['col4','col5'],
                    ['col4'] ]
     nm=NamesMap(names=names,normalizationFunc=lambda x: x, remappingIndex=remapping)
-    return CoworkingNetwork(cliques=collectors,namesMap=nm)
+    return CWN(cliques=collectors,namesMap=nm)
 
 @pytest.mark.parametrize("col,expectedCount",[
         ('col1',8),
@@ -83,7 +83,7 @@ def test_cwn_networkx_subgraphs_works(cwn):
 # with names maps
 def test_cwn_initialization_namesmap(cwn_nm):
     '''CWN can be initialized with a names map'''
-    assert isinstance(cwn_nm,CoworkingNetwork)
+    assert isinstance(cwn_nm,CWN)
     
 def test_cwn_remapped_names_exclusion(cwn_nm):
     '''Names which are remapped to others are excluded from the network'''

@@ -11,7 +11,7 @@ from collections import Counter
 __author__ = "Pedro Correia de Siracusa"
 __copyright__ = "Copyright 2018"
 
-class CoworkingNetwork(networkx.Graph):
+class CWN(networkx.Graph):
     """
     Class for coworking networks. Extends networkx Graph class.
     
@@ -38,15 +38,13 @@ class CoworkingNetwork(networkx.Graph):
     weight_hyperbolic: float
         The hyperbolic weight of the edge.
         
-    Class Methods
-    -------------
     
     Examples
     --------
     
     # Creating a CWN from collectors cliques only
     >>> collectors = [ ['a','b','c'], ['d','e'], ['a','c'] ]
-    >>> cwn = CoworkingNetwork(cliques=collectors)
+    >>> cwn = CWN(cliques=collectors)
     
     >>> cwn.nodes(data=True)
     { 'a': {'count': 2}, 
@@ -70,7 +68,7 @@ class CoworkingNetwork(networkx.Graph):
                        ['a','b','c','d'],
                        ['a']]
     >>> taxons = ['t1','t2','t1','t3','t1','t1','t4']    
-    >>> cwn = CoworkingNetwork(cliques=collectors,taxons=taxons)
+    >>> cwn = CWN(cliques=collectors,taxons=taxons)
     
     >>> cwn.nodes(data=True)
     { 'b': {'count': 2}, 
@@ -92,7 +90,7 @@ class CoworkingNetwork(networkx.Graph):
     """
     def __init__(self, data=None, cliques=None, taxons=None, namesMap=None, **attr):
         """
-        Initialization of CoworkingNetwork class.
+        Initialization of CWN class.
         
         Parameters
         ----------
@@ -133,7 +131,7 @@ class CoworkingNetwork(networkx.Graph):
             edges = e_attr_count.keys()
             data = list(edges)
             
-        super().__init__(data=data,**attr)
+        super().__init__(incoming_graph_data=data,**attr)
     
         # insert nodes and set count attribute
         nodes_counts = Counter( col for clique in cliques for col in clique )
@@ -146,3 +144,33 @@ class CoworkingNetwork(networkx.Graph):
         networkx.set_edge_attributes(self,e_attr_count,'count')
         networkx.set_edge_attributes(self,e_attr_taxon,'taxons')
         networkx.set_edge_attributes(self,e_attr_hyperbWeight,'weight_hyperbolic')
+
+
+
+if __name__=="__main__":
+    
+    collectors = [
+    # col1, col2, col3 and col4 are connected
+    ['col1','col2','col3','col4'],
+    ['col1','col2','col3'],
+    ['col1','col2','col3'],
+    ['col1','col3','col2'],
+    ['col1','col2'],
+    ['col1','col2'],
+    ['col1','col2'],
+    ['col1','col3'],
+    ['col2','col3'],
+    ['col2','col4'],
+    ['col2','col4'],
+    ['col4'],
+    # col5 is isolated
+    ['col5'],
+    ['col5'],
+    # col7 and col8 are connected
+    ['col7','col8'],
+    ['col7','col8'],
+    # col9 would lead to self loop
+    ['col9','col9'],
+    ['col9','col9'] ]
+
+    cwn = CWN(cliques=collectors)
