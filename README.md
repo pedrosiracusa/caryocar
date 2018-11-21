@@ -1,7 +1,7 @@
 Caryocar
 ========
 
-Caryocar is a Python package for building Species-Collector Networks (SCNs) and Collector CoWorking Networks(CWNs) models, introduced in my [MSc thesis](https://lncc-netsci.github.io/pedrocs/).
+Caryocar is a Python package for building Species-Collector Networks (SCNs) and Collector CoWorking Networks(CWNs) models from species occurrence data, as introduced in my [MSc thesis](https://lncc-netsci.github.io/pedrocs/).
 SCNs and CWNs extend the social network analytics and can be used for understanding the social structure behind biological collections.
 This package is built on top of [NetworkX](https://github.com/networkx/networkx).
 
@@ -90,6 +90,3 @@ Then you should activate it with the following command:
 
     $ activate caryocar
 
-
-### Disclaimer
-Notice that this package is expected to work with networkx v2.0 and python v3.6 . It is known not to work with networkx v2.1 and above.
