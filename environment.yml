@@ -1,7 +1,7 @@
 name: caryocar
 
 dependencies:
-  - python
+  - python=3.6
   - networkx=2.0
   - numpy
   - scipy
@@ -9,4 +9,5 @@ dependencies:
   - spyder
   - pandas
   - pytest
+  - scikit-learn
 
