@@ -86,10 +86,10 @@ delprete,pg   ;   Piero G. DelPrete
 reis,pa
 ramos,pcm   ;   Paulo C. M. Ramos
 rosa,po    ;  Priscila Oliveira Rosa    ;   http://lattes.cnpq.br/3252451474065170
-silva,nt
+silva,nt      ;  Nilo Thomás da Silva
 milhomens,lc  ;  Luciano Coêlho Milhomens Fonsêca  ;  http://lattes.cnpq.br/0018913505351067
 salmito,we
-sucre,d
+sucre,d   ;  Dimitri Sucre Benjamin
 franca,f  ;  Flávio França  ;  http://lattes.cnpq.br/2928056665681598
 hoehne,w  ;  Wilson Hoehne  ; https://plants.jstor.org/stable/10.5555/al.ap.person.bm000037888
 oliveira,fcao
@@ -100,19 +100,19 @@ silvajunior,mc  ;  Manoel Cláudio da Silva Júnior  ;   http://lattes.cnpq.br/2
 cezare,chg
 souza,vc    ;   Vinícius C. Souza
 correia,cas   ;   Carlos A. S. Correia
-rizzo,ja
+rizzo,ja      ;  José Angelo Rizzo
 silva,jm
 pereira,cg
-goodland,r
+goodland,r    ; Robert Goodland
 vital,dm    ;   Daniel M. Vital
 souza,enf   ;   Estevão Nascimento Fernandes de Souza   ;   http://lattes.cnpq.br/4791658808834209
 bringel,jba  ;  João Bernardo de Azevedo Bringel Junior
 lima,jcm    ;   José do Carmo M. Lima
 pereira,bas     ;   Benedito Alísio da Silva Pereira
-chagas-e-silva,fc
-pinheiro,rs
-rocha,dms
-duarte,ap
+chagas-e-silva,fc   ; Francisco das Chagas e Silva
+pinheiro,rs     ; Raimundo Soares Pinheiro
+rocha,dms       ; Dulce Maria Sucena da Rocha
+duarte,ap       ; Apparíco Pereira Duarte
 vale,gd
 sampaio,ab
 melo,ms     ;   Marina da Silva Melo
@@ -134,17 +134,17 @@ richards,pw   ; Paul Westmacott Richards
 touw,a
 lindeman,jc
 haidar,rf   ;   Ricardo F. Haidar
-souzasilva,s
+souzasilva,s    ; Sebastião Souza e Silva
 filgueiras,ts   ;   Tarciso de Sousa Filgueiras  ; http://lattes.cnpq.br/7141100226536514
 correa,acg
-krieger,pl
+krieger,pl      ; Leopoldo Krieger (Pe)
 queiroz,lp  ;  Luciano Paganucci de Queiroz     ; http://lattes.cnpq.br/2604388082970935
-barros,mag
+barros,mag    ; Mariluza Araújo Granja e Barros
 fagg,cw  ;  Christopher William Fagg    ; http://lattes.cnpq.br/0657076855028096
 bucci,ffb   ;   Fernando Franco Bueno Bucci
 meneguzzo,tec  ;  Thiago Erir Cadete Meneguzzo  ;  http://lattes.cnpq.br/3321321922162821
 haridasan,m    ;  Mundayatan Haridasan          ; http://lattes.cnpq.br/4539632204303196
-lima,as
+lima,as       ; Athos de Souza Lima
 alvarenga,d
 ramos,ae      ;  Alba Evangelista Ramos     ;   http://lattes.cnpq.br/5649603867980652
 chaves,e      ;  Eduardo Chaves
@@ -152,7 +152,7 @@ carvalho,ja
 santos,jr
 machadoneto,a
 silvestre,lfv   ;   Luiz Felipe do Valle Silvestre    ; http://lattes.cnpq.br/9520074043397900
-mimura,i
+mimura,i        ;  Itiriki Mimura
 mendes,s
 felfili,jm  ;  Jeanine Maria Felfili Fagg     ; http://lattes.cnpq.br/6124595396248224
 solorzano,a
@@ -167,8 +167,8 @@ izetti,c
 oku,w
 ribeiro,jf  ;  Jose Felipe Ribeiro  ;    http://lattes.cnpq.br/9520526430376178
 amorim,eh
-barreto,m
-schiffner,v
+barreto,m   ;  Melo Barreto
+schiffner,v ;  Victor Felix Schiffner
 ramalho,cl  ;  Celina Lima Ramalho    ;   http://lattes.cnpq.br/4462619022804417
 arcela,v    ;  Vicente Arcela     ; http://lattes.cnpq.br/4640117244172070
 pereira,ffo   ;   Fernanda Fumie Onoyama Pereira    ;   http://lattes.cnpq.br/6500500375700767
@@ -176,9 +176,9 @@ pinto,jrr
 santos,nd
 medeiros,mb   ;   Marcelo Brilhante de Medeiros     ;   http://lattes.cnpq.br/2078054899053291
 cota,mrc  ;  Maria Raquel Carvalho Cota   ;   http://lattes.cnpq.br/6649337595568871
-silva,gp
+silva,gp      ; Glocimar Pereira da Silva
 silva,rr
-oliveira,e
+oliveira,e    ; Emmanoel Oliveira
 alkimim,w   ;   Wanderson de Oliveira Alkimim   ;   http://lattes.cnpq.br/7042398773872630    ;   email:wanderson_alkimim@hotmail.com
 ribas,os
 cristine,a
@@ -196,7 +196,7 @@ matos,mq
 staggemeier,vr
 coelho,gsf
 guimaraes,pjf  ;  Paulo José Fernandes Guimarães  ;  http://lattes.cnpq.br/9540758289593565
-romero,r
+romero,r        ; Rosana Romero
 silva,ap        ; Ana Palmira Silva   ; http://lattes.cnpq.br/9946185918076449
 costa,rs
 hill,sr
@@ -205,7 +205,7 @@ duval,fg
 aedo,c
 fernandezalonso,jl
 turmadebotanicadecampo    ; context:botany_class_unb
-souza,jp
+souza,jp    ;  Juliana P. Souza
 costa,dp    ;   Denise Pinheiro da Costa    ;   http://lattes.cnpq.br/2839537470422776
 santos,jb
 santos,ml  ;  Mirley Luciene dos Santos     ; http://lattes.cnpq.br/4037739389334742
@@ -213,7 +213,7 @@ augusto,mm
 moura,os    ;  Osvanda Silva de Moura
 almeida,sp
 hedenas,l
-klein,vlg
+klein,vlg   ; Vera Lúcia Gomes Klein
 silva,jcs
 castro,ra
 passos,fb         ; Fábio Barbosa Passos  ;  http://lattes.cnpq.br/6569009152124770
@@ -221,11 +221,11 @@ campos,lzo        ; Letícia Zenóbia de Oliveira
 leite,lq
 maguire,b         ; Basset Maguire
 moreira,ga
-plowman,tc
+plowman,tc        ; Timothy C. Plowman
 araujo,gm
 junqueira,di    ;   Daniela Inácio Junqueira    ; http://lattes.cnpq.br/1026085006077039
 moreira,tb
-silva,lam
+silva,lam       ;  Luiz Alberto Mattos Silva
 shaw,aj
 raimundo,r
 oliveira,jrpm     ;   Juliana Rosa do Pará Marques de Oliveira    ;   http://lattes.cnpq.br/5546014514021118
@@ -233,9 +233,9 @@ duartesilva,ag    ;   Ana Gabriela Duarte Silva                   ;   http://lat
 cesar,hl
 paiva,jga
 clayton,wd
-leitao-filho,h
+leitao-filho,h    ; Hermógenes de Freitas Leitão Filho
 alves,mm
-gates,b
+gates,b           ; Bronwen Gates
 gonzaga,rmo
 nogueira,lmg
 odelvik,g
@@ -243,15 +243,15 @@ lee,eyt           ; Erick Yin-Tse Lee
 marimon,bs  ;  Beatriz Schwantes Marimon
 santos,aa
 cordeiro,j
-macedo,m
+macedo,m    ; Miramy Macedo
 souza,acm   ;   Andrielle Cristine Medeiros de Souza    ; http://lattes.cnpq.br/5670673005001457
 kitaura,m
-gottsberger,g
-kummrow,r
+gottsberger,g     ; Gerhard Gottsberger
+kummrow,r         ; Ronaldo Kummrow
 nascimentojunior,ic
-pirani,jr
+pirani,jr         ; José Rubens Pirani
 equipedachesfctnopetcon
-santos,ts
+santos,ts         ; Talmon Soares dos Santos
 melo,md
 minervino,js    ;   Juliano Silva Minervino
 arruda,r
@@ -270,16 +270,15 @@ rodrigues,as
 bijos,nr    ;   Natália Rodrigues Bijos   ; http://lattes.cnpq.br/2032343582106863
 cardoso,de
 reis,gr
-davidse,g
-arbo,mm
+davidse,g       ; Gerrit Davidse
+arbo,mm         ; Maria Mercedes Arbo
 silva,n
 petracco,p      ;  Paula Petracco
 aquino,ppu      ; Pedro Podestà Uchôa de Aquino     ; http://lattes.cnpq.br/8512815365984355
 rolim,lb
 machado,jwb
-froes,rl
+froes,rl        ; Ricardo de Lemos Fróes
 andrade,mc
-hage,jl
 pastore,jfb   ;   José Floriano Barêa Pastore
 furtado,mtr
 pinto,rnm
@@ -291,12 +290,12 @@ guimaraes,ll
 ronblom,k
 antunes,ec
 antunes,ll
-killip,ep
+killip,ep     ; Elisworth Paine Killip
 pott,a  ;  Arnildo Pott
 pott,vj  ;  Vali Joana Pott  
 roveratti,j
-giulietti,aml
-black,ga
+giulietti,am   ; Anna Maria Giulietti 
+black,ga       ; George Alexander Black
 chacon,rg   ;  Roberta Gomes Chacon
 farias,ca
 silva,nf
@@ -304,14 +303,14 @@ rios,mns
 nitikman,lz
 fankdecarvalho,sm  ;  Suzane Margaret Fank de Carvalho  ;  http://lattes.cnpq.br/4465782668919511
 lima,n
-saddi,n
+saddi,n     ;  Nagib Saddi
 campos,mbs  ;  Mateus Barros e Silva Campos  ;  http://lattes.cnpq.br/3795657143774200
-brade,ac
+brade,ac    ; Alexander Curt Brade
 almeida,te
-damascenojunior,ga
+damascenojunior,ga    ;  Geraldo A. Damasceno Júnior
 oliveira,hc
 neiva,caf   ;  Cinara Araújo Faria Neiva
-nogueira,e
+nogueira,e    ; Eliana Nogueira
 dias,jb
 pinheiro,gs
 carvalho,jfv
@@ -326,7 +325,7 @@ vanrooy,j
 silva,pen
 silva,csp   ;   Cristiane Soares Pereira da Silva    ;   http://lattes.cnpq.br/2663930743910410
 pereira,ga
-mellosilva,r
+mellosilva,r    ;  Renato de Mello-silva
 bishop,le   ; Luther Earl Bishop
 costa,ir  ;  Itayguara Ribeiro Costa
 carvalho,phs
@@ -338,7 +337,7 @@ rezende,av
 guimaraes,rm
 fechina,f
 hoehne,fc   ; Frederico Carlos Hoehne   ; https://plants.jstor.org/stable/10.5555/al.ap.person.bm000003687
-ferreira,mb
+ferreira,mb   ;  Mitzi Brandão Ferreira
 ramos,mvv
 mori,sa     ; Scott A. Mori             ; https://plants.jstor.org/stable/10.5555/al.ap.person.bm000005813
 pereira,ams
@@ -346,12 +345,12 @@ almeida,rf
 jesus,fpr
 francisco,em
 skvortzov,b
-pereira,e
-silva,ss
+pereira,e     ;  Edmundo Pereira
+silva,ss      ; Sandra S. Silva
 rivera,vl  ;  Vanessa Lopes Rivera  ; ; email:nessarivera@gmail.com
 batista,ma
 silva,jma
-oliveira,rg
+oliveira,rg   ; Rosana Gomes de Oliveira
 freitas,rip
 viana,jl
 nobrega,mg
@@ -359,7 +358,7 @@ cavalcanti,tb  ;  Taciana Barbosa Cavalcanti  ;  http://lattes.cnpq.br/052413149
 pereiraneto,m
 versiane,afa
 delgado,sm   ;  Simone Mogami Delgado
-arbocz,gf
+arbocz,gf     ; Géza de Faria Árbocz
 nascimento,ea
 hatschbach,m
 laine,u
@@ -367,7 +366,7 @@ jungbluth,p
 mendes,jm
 hamnede,m
 noletto,lg
-ivanauskas,nm
+ivanauskas,nm     ; Natalia Macedo Ivanauskas
 fernandes,jb
 schessl,m
 lourenco,jml
@@ -482,7 +481,7 @@ westra,lyth       ;  Lubbert Ybele Theodoor Westra
 almeda,f          ;  Frank Almeda
 euponino,a        ;  Antonio Euponino
 forero,e          ;  Enrique Forero González
-hage,jl           ;  José L. Hage
+hage,jl           ;  José Leandro Hage
 gehrt,a           ;  Augusto Gehrt
 acevedorodriguez,p ; Pedro Acevedo Rodríguez
 aguilar,r           ; Reinaldo Aguilar
@@ -510,3 +509,12 @@ smith,np           ; Nate P. Smith
 stevens,ws         ; Warren Douglas Stevens
 steyermark,ja      ; Julian Alfred Steyermark
 werff,hvander      ; Hendrik Hessel van der Werff
+mamede,mch         ; Maria Cândida Henrique Mamede
+bernacci,lc        ; Luiz Carlos BErnacci
+tozzi,amga         ; Ana Maria Goulart Azevedo Tozzi
+aguiar,ot          ; Osny Tadeu Aguiar
+albuquerque,bwp    ; Byron Wilson Pereira de Albuquerque
+albuquerque,jm     ; José Maria Albuquerque
+alencar,l          ; Lúcia Alencar
+alencar,me         ; Maria Edileide Alencar
+allem,ac           ; Antônio Costa Allem

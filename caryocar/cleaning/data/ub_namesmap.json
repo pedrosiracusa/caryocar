@@ -7902,8 +7902,6 @@
         "gibles,p": "gibbs,pe",
         "gifford,d": "gifford,dr",
         "giordano,lc": "giordano,lcs",
-        "giulietti,am": "giulietti,aml",
-        "giulietti,an": "giulietti,aml",
         "gomes,l": "gomes,lcj",
         "gomes,v": "klein,vlg",
         "gomes,vl": "klein,vlg",
@@ -8215,6 +8213,8 @@
         "nogales,t": "vasconcelos,tnc",
         "croat,t": "croat,tb",
         "dressler": "dressler,rl",
-        "daly,d": "daly,dc"
+        "daly,d": "daly,dc",
+        "tozzi,am": "tozzi,amga",
+        "tozzi,ama": "tozzi,amga",
     }
 }
