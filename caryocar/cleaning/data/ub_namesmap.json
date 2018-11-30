@@ -8070,7 +8070,6 @@
         "ramos": "ramos,r",
         "raulino,t": "raulino,taf",
         "reitz": "reitz,pr",
-        "reitz,r": "reitz,pr",
         "ribeira,sc": "ribeiro,sc",
         "ribeiro,mm": "ribeiro,mmv",
         "richards": "richards,pw",
@@ -8216,5 +8215,7 @@
         "daly,d": "daly,dc",
         "tozzi,am": "tozzi,amga",
         "tozzi,ama": "tozzi,amga",
+        "joly,c":"joly,ca",
+        "sanches,m":"sanchez,m"
     }
 }
