@@ -255,6 +255,20 @@ class SCN(networkx.Graph):
         if data==False:
             return [ n for n in self.nodes(data=data) if n in colNodes ]
         return [ (n,d) for n,d in self.nodes(data=data) if n in colNodes ]
+
+
+    def setCollectorsNames(self, collectors_names):
+        """
+        Sets collectors names based on a dict keyed by their ids.
+        
+        Parameters
+        ----------
+        collectors_names : dict
+            Dictionary containing the full names of collectors, keyed by their ids. This methods adds the name as a new attribute of the node, named 'fullname'.
+        """
+        networkx.set_node_attributes(self, 
+                values=collectors_names,
+                name='fullname')
     
     def getSpeciesBag( self, collector ):
         """

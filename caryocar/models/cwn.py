@@ -146,6 +146,68 @@ class CWN(networkx.Graph):
         networkx.set_edge_attributes(self,e_attr_hyperbWeight,'weight_hyperbolic')
 
 
+    def listCollectors(self,data=False):
+        """
+        Lists collectors nodes.
+        
+        Parameters
+        ----------
+        data : string or bool, default=False
+            If False only nodes ids are returned.
+            If True nodes ids are returned with their respective attribute dicts as (n, attrDict).
+            If a string is passed (with an attribute name) then its value is returned in a 2-tuple (n, attrValue).
+        
+        Returns
+        -------
+        Either a list of tuples (n,attrDict) or (n,attrValue) where n is the node's id; or a list of nodes id's n.
+        
+        Note
+        ----
+        It is not guaranteed that the same order will be mainained in multiple calls of this function.
+        """
+        return list(self.nodes(data=data))
+
+
+    def listCollaborators(self, collector, data=False):
+        """
+        Lists collaborators (neighbor nodes) of a given collector.
+        
+        Parameters
+        ----------
+        collector: string
+            The id of the collector to retrieve collaborations from.
+
+        data : string or bool, default=False
+            If False only nodes ids are returned.
+            If True nodes ids are returned with their respective attribute dicts as (n, attrDict).
+            If a string is passed (with an attribute name) then its value is returned in a 2-tuple (n, attrValue).
+        
+        Returns
+        -------
+        Either a list of tuples (n,attrDict) or (n,attrValue) where n is the node's id; or a list of nodes id's n.
+        """
+        if data==False: return list(self.neighbors(collector))
+        elif data==True: return [(n,self.node[n]) for n in self.neighbors(collector)]
+        else: return [(n,self.node[n].get(data)) for n in self.neighbors(collector)]
+
+
+
+
+    def setCollectorsNames(self, collectors_names):
+        """
+        Sets collectors names based on a dict keyed by their ids.
+        
+        Parameters
+        ----------
+        collectors_names : dict
+            Dictionary containing the full names of collectors, keyed by their ids. This methods adds the name as a new attribute of the node, named 'fullname'.
+        """
+        networkx.set_node_attributes(self, 
+                values=collectors_names,
+                name='fullname')
+
+
+
 
 if __name__=="__main__":
     
